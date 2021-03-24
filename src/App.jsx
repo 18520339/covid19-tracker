@@ -8,14 +8,14 @@ import {
 } from '@material-ui/core';
 import numeral from 'numeral';
 
-import { InfoBox, Map, Table, LineGraph } from './components';
+import { Header, InfoBox, Map, Table, LineGraph } from './components';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
 
 const baseUrl = `https://disease.sh/v3/covid-19`;
 export default function App() {
     const [countries, setCountries] = useState([]);
-    const [country, setCountry] = useState('worldwide');
+    const [selectedCountry, setSelectedCountry] = useState('worldwide');
     const [countryInfo, setCountryInfo] = useState({});
     const [casesType, setCasesType] = useState('cases');
 
@@ -33,7 +33,7 @@ export default function App() {
 
     const onCountryChange = event => {
         const countryCode = event.target.value;
-        setCountry(countryCode);
+        setSelectedCountry(countryCode);
 
         let endpoint;
         if (countryCode === 'worldwide') endpoint = `${baseUrl}/all`;
@@ -42,7 +42,6 @@ export default function App() {
         fetch(endpoint)
             .then(response => response.json())
             .then(data => {
-                setCountry(countryCode);
                 setCountryInfo(data);
                 setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
                 setMapZoom(4);
@@ -73,23 +72,11 @@ export default function App() {
     return (
         <div className='app'>
             <div className='app__left'>
-                <div className='app__header'>
-                    <h1>COVID 19 TRACKER</h1>
-                    <FormControl className='app__dropdown'>
-                        <Select
-                            variant='outlined'
-                            value={country}
-                            onChange={onCountryChange}
-                        >
-                            <MenuItem value='worldwide'>Worldwide</MenuItem>
-                            {countries.map(({ name, value }) => (
-                                <MenuItem key={name} value={value}>
-                                    {name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
+                <Header
+                    countries={countries}
+                    selectedCountry={selectedCountry}
+                    onChang={onCountryChange}
+                />
                 <div className='app__stats'>
                     <InfoBox
                         active={casesType === 'cases'}
