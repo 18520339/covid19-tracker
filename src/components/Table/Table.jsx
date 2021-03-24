@@ -6,14 +6,18 @@ export default function Table({ countries }) {
     return (
         <table>
             <tbody>
-                {countries.map(({ country, cases }) => (
-                    <tr key={country}>
-                        <td>{country}</td>
-                        <td>
-                            <strong>{numeral(cases).format('000,000')}</strong>
-                        </td>
-                    </tr>
-                ))}
+                {[...countries]
+                    .sort((a, b) => b.cases - a.cases)
+                    .map(({ country, cases }) => (
+                        <tr key={country}>
+                            <td>{country}</td>
+                            <td>
+                                <strong>
+                                    {numeral(cases).format('000,000')}
+                                </strong>
+                            </td>
+                        </tr>
+                    ))}
             </tbody>
         </table>
     );

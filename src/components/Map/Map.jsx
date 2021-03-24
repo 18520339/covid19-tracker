@@ -1,15 +1,15 @@
 import React from 'react';
 import { Circle, MapContainer, Popup, TileLayer, useMap } from 'react-leaflet';
-import numeral from 'numeral';
+import CountryPopup from './CountryPopup';
 import './Map.css';
 
-const typeColors = {
+const caseTypeColors = {
     cases: { hex: '#cc1034', mulitiplier: 800 },
     recovered: { hex: '#7dd71d', mulitiplier: 1200 },
     deaths: { hex: '#c0c0c0', mulitiplier: 2000 },
 };
 
-export default function Map({ center, zoom, countries, type = 'cases' }) {
+export default function Map({ center, zoom, countries, caseType = 'cases' }) {
     const ChangeView = ({ center, zoom }) => {
         const map = useMap();
         map.setView(center, zoom);
@@ -24,47 +24,22 @@ export default function Map({ center, zoom, countries, type = 'cases' }) {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             {countries.map(countryDetails => {
-                const {
-                    country,
-                    countryInfo: { lat, long, flag },
-                    cases,
-                    recovered,
-                    deaths,
-                } = countryDetails;
-
+                const { lat, long } = countryDetails.countryInfo;
                 return (
                     <Circle
                         key={country}
                         center={[lat, long]}
                         pathOptions={{
-                            fillColor: typeColors[type].hex,
-                            color: typeColors[type].hex,
+                            fillColor: caseTypeColors[caseType].hex,
+                            color: caseTypeColors[caseType].hex,
                         }}
                         fillOpacity={0.4}
                         radius={
-                            Math.sqrt(countryDetails[type] / 10) *
-                            typeColors[type].mulitiplier
+                            Math.sqrt(countryDetails[caseType] / 10) *
+                            caseTypeColors[caseType].mulitiplier
                         }
                     >
-                        <Popup>
-                            <div className='info-container'>
-                                <div
-                                    className='info-flag'
-                                    style={{ backgroundImage: `url(${flag})` }}
-                                />
-                                <div className='info-name'>{country}</div>
-                                <div className='info-confirmed'>
-                                    Cases: {numeral(cases).format('0,0')}
-                                </div>
-                                <div className='info-recovered'>
-                                    Recovered:{' '}
-                                    {numeral(recovered).format('0,0')}
-                                </div>
-                                <div className='info-deaths'>
-                                    Deaths: {numeral(deaths).format('0,0')}
-                                </div>
-                            </div>
-                        </Popup>
+                        <CountryPopup countryDetails={countryDetails} />
                     </Circle>
                 );
             })}

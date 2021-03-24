@@ -4,22 +4,6 @@
 	padding        : 20px;
 }
 
-.app__header {
-	display        : flex;
-	justify-content: space-between;
-	align-items    : center;
-	margin-bottom  : 20px;
-}
-
-.app__header>h1 {
-	font-size: 2rem;
-	color    : #fc3c3c;
-}
-
-.app__dropdown {
-	background-color: white;
-}
-
 .app__left {
 	flex: 0.9;
 }

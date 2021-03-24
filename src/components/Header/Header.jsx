@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormControl, MenuItem, Select } from '@material-ui/core';
 import './Header.css';
 
 export default function Header({ countries, selectedCountry, onChange }) {
@@ -12,9 +13,9 @@ export default function Header({ countries, selectedCountry, onChange }) {
                     onChange={onChange}
                 >
                     <MenuItem value='worldwide'>Worldwide</MenuItem>
-                    {countries.map(({ name, value }) => (
-                        <MenuItem key={name} value={value}>
-                            {name}
+                    {countries.map(({ country, countryInfo }) => (
+                        <MenuItem key={country} value={countryInfo.iso2}>
+                            {country}
                         </MenuItem>
                     ))}
                 </Select>
