@@ -1,15 +1,15 @@
 import React from 'react';
-import { Circle, MapContainer, Popup, TileLayer, useMap } from 'react-leaflet';
+import { Circle, MapContainer, TileLayer, useMap } from 'react-leaflet';
 import CountryPopup from './CountryPopup';
 import './Map.css';
 
 const caseTypeColors = {
     cases: { hex: '#cc1034', mulitiplier: 800 },
-    recovered: { hex: '#7dd71d', mulitiplier: 1200 },
+    recovered: { hex: '#7dd71d', mulitiplier: 800 },
     deaths: { hex: '#c0c0c0', mulitiplier: 2000 },
 };
 
-export default function Map({ center, zoom, countries, caseType = 'cases' }) {
+export default function Map({ center, zoom, countries, casesType = 'cases' }) {
     const ChangeView = ({ center, zoom }) => {
         const map = useMap();
         map.setView(center, zoom);
@@ -27,16 +27,16 @@ export default function Map({ center, zoom, countries, caseType = 'cases' }) {
                 const { lat, long } = countryDetails.countryInfo;
                 return (
                     <Circle
-                        key={country}
+                        key={countryDetails.country}
                         center={[lat, long]}
                         pathOptions={{
-                            fillColor: caseTypeColors[caseType].hex,
-                            color: caseTypeColors[caseType].hex,
+                            fillColor: caseTypeColors[casesType].hex,
+                            color: caseTypeColors[casesType].hex,
                         }}
                         fillOpacity={0.4}
                         radius={
-                            Math.sqrt(countryDetails[caseType] / 10) *
-                            caseTypeColors[caseType].mulitiplier
+                            Math.sqrt(countryDetails[casesType] / 10) *
+                            caseTypeColors[casesType].mulitiplier
                         }
                     >
                         <CountryPopup countryDetails={countryDetails} />

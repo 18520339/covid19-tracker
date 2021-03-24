@@ -12,7 +12,7 @@ export default function InfoBox({
     onClick,
 }) {
     const prettyPrintStat = number => {
-        return number ? `+${numeral(number).format('0.0a')}` : '+0';
+        return number ? `${numeral(number).format('0,0')}` : '0';
     };
 
     return (
@@ -25,15 +25,15 @@ export default function InfoBox({
             onClick={onClick}
         >
             <CardContent>
-                <Typography className='info-box__title' color='textSecondary'>
+                <Typography className='info-box__title' color='textPrimary'>
                     {title}
                 </Typography>
                 <h2
                     className={`info-box__cases ${!isRed && 'info-box--green'}`}
                 >
-                    {prettyPrintStat(cases)}
+                    +{prettyPrintStat(cases)} Today
                 </h2>
-                <Typography className='info-box__total' color='textSecondary'>
+                <Typography className='info-box__total' color='primary'>
                     {prettyPrintStat(total)} Total
                 </Typography>
             </CardContent>

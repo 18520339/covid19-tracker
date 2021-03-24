@@ -1,9 +1,11 @@
 import React from 'react';
+import { Popup } from 'react-leaflet';
+import numeral from 'numeral';
 
 export default function CountryPopup({ countryDetails }) {
     const { country, countryInfo, cases, recovered, deaths } = countryDetails;
     return (
-        <Popup>
+        <Popup autoPan={false}>
             <div className='popup__container'>
                 <div
                     className='popup__flag'

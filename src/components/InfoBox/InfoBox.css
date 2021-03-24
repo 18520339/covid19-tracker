@@ -3,8 +3,8 @@
     cursor: pointer;
 }
 
-.info-box:not(:last-child) {
-    margin-right: 15px;
+.info-box {
+    margin: 10px;
 }
 
 .info-box--active {
@@ -16,7 +16,11 @@
 }
 
 .info-box--green {
-    color: lightgreen !important;
+    color: limegreen !important;
+}
+
+.info-box__title {
+    margin-bottom: 0.2rem !important;
 }
 
 .info-box__cases {
@@ -27,8 +31,5 @@
 }
 
 .info-box__total {
-    margin-top : 15px !important;
-    font-size  : 0.8rem !important;
-    font-weight: 700;
-    color      : #6c757d;
+    font-size: 0.8rem !important;
 }

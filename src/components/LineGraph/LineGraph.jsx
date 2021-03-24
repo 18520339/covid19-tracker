@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2';
 import numeral from 'numeral';
 import './LineGraph.css';
 
-export default function LineGraph({ caseType = 'cases' }) {
+export default function LineGraph({ casesType = 'cases' }) {
     const [data, setData] = useState([]);
 
     const buildChartData = useCallback(
@@ -11,27 +11,27 @@ export default function LineGraph({ caseType = 'cases' }) {
             const chartData = [];
             let lastDataPoint;
 
-            for (let date in data[caseType]) {
+            for (let date in data[casesType]) {
                 if (lastDataPoint)
                     chartData.push({
                         x: date,
-                        y: data[caseType][date] - lastDataPoint,
+                        y: data[casesType][date] - lastDataPoint,
                     });
-                lastDataPoint = data[caseType][date];
+                lastDataPoint = data[casesType][date];
             }
             return chartData;
         },
-        [caseType]
+        [casesType]
     );
 
     useEffect(() => {
         fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
             .then(response => response.json())
-            .then(data => setData(buildChartData(data, caseType)));
-    }, [caseType, buildChartData]);
+            .then(data => setData(buildChartData(data, casesType)));
+    }, [casesType, buildChartData]);
 
     return (
-        <div className='graph'>
+        <div className='line-graph'>
             {data?.length > 0 && (
                 <Line
                     data={{

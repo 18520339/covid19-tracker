@@ -30,8 +30,13 @@ export default function App() {
             .then(response => response.json())
             .then(data => {
                 setCountryDetails(data);
-                setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-                setMapZoom(4);
+                if (countryCode === 'worldwide') {
+                    setMapCenter([34.80746, -40.4796]);
+                    setMapZoom(3);
+                } else {
+                    setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+                    setMapZoom(4);
+                }
             });
     };
 
@@ -53,7 +58,7 @@ export default function App() {
                 <Header
                     countries={countries}
                     selectedCountry={selectedCountry}
-                    onChang={onCountryChange}
+                    onChange={onCountryChange}
                 />
                 <div className='app__stats'>
                     <InfoBox
